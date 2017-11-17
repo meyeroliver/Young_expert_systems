@@ -2,8 +2,6 @@ import java.util.*;
 
 public class Expert
 {
-    //KnowledgeBase knowledgeBase;
-
     public KnowledgeBase separator(LinkedList fileList)
     {
         LinkedList<Query> queries = new LinkedList<>();
@@ -66,9 +64,9 @@ public class Expert
         Graphs graph = knowledgeBase.getRules();
         LinkedList<String> crlsit = new LinkedList<>();
         /*goes through the graph and adds all of the conclusion to the Solvable list*/
-        for(int v = 0; v < graph.getV(); v++)
+        for (int v = 0; v < graph.getV(); v++)
         {
-            for(Rule rule: graph.getRulesList(v))// this be made to iterate through the conclusion
+            for (Rule rule: graph.getRulesList(v))// this be made to iterate through the conclusion
             {
                 crlsit.add(rule.getConclusion());//over here i can make so that takes the conclusion and then takes its operands(will help a lot)
                 break;
