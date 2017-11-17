@@ -31,7 +31,6 @@ public class ReadFile
         String line;
         LinkedList fileList =  new LinkedList();
 
-        this.openFile();
         try
         {
             FileReader freader = new FileReader("/goinfre/omeyer/Desktop/Expert_System/src/" + this.filename);
@@ -45,18 +44,7 @@ public class ReadFile
         {
             System.out.println("Could not read file");
         }
-        this.closeFile();
         return (fileList);
-    }
-
-    public void display(LinkedList fileList)
-    {
-        ListIterator litr = fileList.listIterator();
-        while(litr.hasNext())
-        {
-            Object element = litr.next();
-            System.out.println(element);
-        }
     }
 
     public void closeFile()
