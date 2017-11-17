@@ -14,17 +14,17 @@ public class ErrorChecking
     {
         boolean lineState;
 
-        if ((lineState = emptyRules()) == true) //goes in when there are no rules
+        if ((lineState = emptyRules()))
         {
             System.err.println("There are no rules in this file");
             return (lineState);
         }
-        if ((lineState = emptyIniFacts()) == true) //goes in when there are no initial facts
+        if ((lineState = emptyIniFacts()))
         {
             System.err.println("There are no initial facts in this file");
             return (lineState);
         }
-        if ((lineState = emptyQuery()) == true) //goes in when there are no queries
+        if ((lineState = emptyQuery()))
         {
             System.err.println("There are no query in this file");
             return (lineState);
@@ -36,9 +36,8 @@ public class ErrorChecking
     {
         Object element;
         String line;
-        //boolean lineState;
 
-        if (isEmpty() == true)//this checks whether there is an empty aspect in the file
+        if (isEmpty() == true)
         {
             return (false);
         }
@@ -51,12 +50,12 @@ public class ErrorChecking
                 line = (String) (element);
                 if (line.contains("=>"))
                 {
-                    if (this.isUpper(line) == false)
+                    if (!this.isUpper(line))
                     {
-                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters");
                         return (false);
                     }
-                    if (this.validExpression(line) == false)
+                    if (!this.validExpression(line))
                     {
                         System.err.println(line + "\t\t <- This expression is invalid.");
                         return (false);
@@ -64,17 +63,17 @@ public class ErrorChecking
                 }
                 if (line.contains("="))
                 {
-                    if (this.isUpper(line) == false)
+                    if (!this.isUpper(line))
                     {
-                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters");
                         return (false);
                     }
                 }
                 if (line.contains("?"))
                 {
-                    if (this.isUpper(line) == false)
+                    if (!this.isUpper(line))
                     {
-                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters");
                         return (false);
                     }
                 }
@@ -85,117 +84,79 @@ public class ErrorChecking
 
     private boolean isUpper (String line)
     {
-        boolean lineState;
         int i;
 
         i = 0;
-        lineState = true;
         while (i < line.length())
         {
             if (Character.isLetter(line.charAt(i)) && !Character.isUpperCase(line.charAt(i)))
-            {
-                lineState = false;
-                break;
-            }
+                return false;
             i++;
         }
-        return (lineState);
+        return true;
     }
 
     private boolean emptyRules()
     {
         ListIterator litr = this.fileList.listIterator();
         Object element;
-        boolean emptyRules;
         String line;
 
-        emptyRules = true;
         while (litr.hasNext())
         {
             element = litr.next();
             line = (String)(element);
             if (line.contains("=>"))
-            {
-                emptyRules = false;
-                break;
-            }
+                return false;
         }
-        return (emptyRules);
+        return true;
     }
 
     private boolean emptyIniFacts()
     {
         ListIterator litr = this.fileList.listIterator();
         Object element;
-        boolean emptyRules;
         String line;
 
-        emptyRules = true;
         while (litr.hasNext())
         {
             element = litr.next();
             line = (String)(element);
             if ((line.startsWith("=")) && (line.length() > 1))
-            {
-                emptyRules = false;
-                break;
-            }
+                return false;
         }
-        return (emptyRules);
+        return true;
     }
 
     private boolean emptyQuery()
     {
         ListIterator litr = this.fileList.listIterator();
         Object element;
-        boolean emptyRules;
         String line;
 
-        emptyRules = true;
         while (litr.hasNext())
         {
             element = litr.next();
             line = (String)(element);
             if ((line.startsWith("?")) && (line.length() > 1))
-            {
-                emptyRules = false;
-                break;
-            }
+                return false;
         }
-        return (emptyRules);
+        return true;
     }
 
-    private boolean consecutiveOperands(String line)//try to make this more efficient
+    private boolean consecutiveOperands(String line)
     {
-        boolean     lineState;
-        lineState = false;
-
         if (line.contains("++") || line.contains("+|") || line.contains("+^") || line.contains("+)") || line.contains("+=>"))
-        {
-            lineState = true;
-            return (lineState);
-        }
+            return true;
         if (line.contains("||") || line.contains("|+") || line.contains("|^") || line.contains("|)") || line.contains("|=>"))
-        {
-            lineState = true;
-            return (lineState);
-        }
+            return true;
         if (line.contains("^^") || line.contains("^|") || line.contains("^+") || line.contains("^)") || line.contains("^=>"))
-        {
-            lineState = true;
-            return (lineState);
-        }
+            return true;
         if (line.contains(")("))
-        {
-            return (true);
-        }
+            return true;
         if (line.contains("=>=>") || line.contains("=>|") || line.contains("=>^") || line.contains("=>)") || line.contains("=>+"))
-        {
-            lineState = true;
-            return (lineState);
-        }
-
-        return (lineState);
+            return true;
+        return false;
     }
 
     private boolean validBrackets(String[] s_array)
@@ -213,23 +174,15 @@ public class ErrorChecking
             while (j < c_array.length)
             {
                 if (c_array[j] == '(')
-                {
                     expStack.push(c_array[j]);
-                }
                 if (c_array[j] == ')' && expStack.isEmpty())
-                {
                     return (false);
-                }
                 if (c_array[j] == ')' && !expStack.isEmpty())
-                {
                     expStack.pop();
-                }
                 j++;
             }
             if (!expStack.isEmpty())
-            {
                 return (false);
-            }
             i++;
         }
         return (true);
@@ -237,7 +190,6 @@ public class ErrorChecking
 
     private boolean validExpression (String line)
     {
-        boolean     lineState;
         char[]      c_array;
         int         i;
         String[]    s_array;
@@ -245,32 +197,19 @@ public class ErrorChecking
         i = 0;
         line = line.replaceAll("\\s+","");
         c_array = line.toCharArray();
-        lineState = true;
         s_array = line.split("=>");
-
-        //checking for incomplete expression
         if(s_array.length != 2)
-        {
             return (false);
-        }
-        //check for correct brackets
-        if (validBrackets(s_array) == false)
-        {
+        if (!validBrackets(s_array))
             return (false);
-        }
-        //check for consecutive facts
         while(i < c_array.length - 1)
         {
             if (Character.isLetter(c_array[i]) && Character.isLetter(c_array[i + 1]))
-            {
                 return (false);
-            }
-            if (consecutiveOperands(line) == true)
-            {
+            if (consecutiveOperands(line))
                 return (false);
-            }
             i++;
         }
-        return(lineState);
+        return(true);
     }
 }
