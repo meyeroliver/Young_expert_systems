@@ -207,7 +207,7 @@ public class InferenceEngine {
         return index;
     }
 
-    public static void main (String args[])
+   /* public static void main (String args[])
     {
         ReadFile file = new ReadFile("input.txt");
         LinkedList fileList = file.readFile();
@@ -216,5 +216,5 @@ public class InferenceEngine {
         knowledgeBase.setFacts(expert.confirmList(knowledgeBase));
         InferenceEngine inferenceEngine = new InferenceEngine(knowledgeBase);
         inferenceEngine.initialQuery(knowledgeBase.getQuery());
-    }
+    }*/
 }

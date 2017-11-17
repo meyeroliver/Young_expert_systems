@@ -6,22 +6,23 @@ public class ReadFile
 {
     private Scanner scan;
     private String filename;
-    private int numOfRules;
 
     public ReadFile(String filename)
     {
         this.filename = filename;
     }
 
-    public void openFile()
+    public boolean openFile()
     {
         try
         {
             this.scan = new Scanner(new File("/goinfre/omeyer/Desktop/Expert_System/src/" + this.filename));
+            return true;
         }
         catch (Exception e)
         {
-            System.out.println("Could not find file");
+            System.err.println("\n \""+filename+"\" does not exist. File cannot be opened");
+            return false;
         }
     }
 
@@ -51,7 +52,6 @@ public class ReadFile
     public void display(LinkedList fileList)
     {
         ListIterator litr = fileList.listIterator();
-        String line;
         while(litr.hasNext())
         {
             Object element = litr.next();

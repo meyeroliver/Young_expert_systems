@@ -3,10 +3,7 @@ public class Facts
     private char operand;
     private boolean state;
 
-    public Facts()
-    {
 
-    }
 
     public Facts(char operand, boolean state)
     {

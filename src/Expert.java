@@ -18,8 +18,8 @@ public class Expert
             element = element.replaceAll("\\s+","");
             if(element.contains("=>"))
             {
-                s_array = ((String) (element)).split("=>");
-                Rule temp = new Rule(s_array[1], ((String) (element)));
+                s_array = ((element)).split("=>");
+                Rule temp = new Rule(s_array[1], ((element)));
                 rules.add(temp);
             }
             else if (element.startsWith("="))
@@ -100,12 +100,7 @@ public class Expert
                     if (operands[i].contains("!"))
                     {
                         operands[i] = operands[i].replaceAll("!", "");
-      //                  System.out.println(operands[i]);
                     }
-           //         if (operands[i].contains(""))
-             //       {
-               //         i++;
-                 //   }
                     /***********************************************************************************/
                     //this section allows me to determine whether or not the current operand is in the Solvable list
                     ListIterator<String> listIterator = crlsit.listIterator();
@@ -150,28 +145,9 @@ public class Expert
                                         hasRule = true;
                                         crlsit.add(checkRule.getConclusion());
                                     }
-                                    /*if (operands[i].charAt(0) == checkRule.getConclusion().charAt(0))//over here i can make so that takes the conclusion and then takes its operands(will help a lot)
-                                    {
-                                        hasRule = true;
-                                    }*/
-                                    ;//over here i can make so that takes the conclusion and then takes its operands(will help a lot)
                                     break;
                                 }
                             }
-//check the above adding
-
-
-                            /*LinkedList<Query> queries = knowledgeBase.getQuery();
-                            ListIterator<Query> queryListIterator = queries.listIterator();
-                            boolean inQuery = false;
-                            while (queryListIterator.hasNext())
-                            {
-                                Query query = queryListIterator.next();
-                                if (operands[i].charAt(0) == query.getQuery())
-                                {
-                                    inQuery = true;
-                                }
-                            }*/
                          /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             if (hasRule == false)
                             {
@@ -189,60 +165,4 @@ public class Expert
         return facts;
     }
 
-  /*  public static void main (String args[])
-    {
-        //the expert while the file
-        ReadFile file = new ReadFile("input.txt");
-        LinkedList fileList = file.readFile();
-        Expert expert = new Expert();
-        KnowledgeBase knowledgeBase =  expert.separator(fileList);
-       // knowledgeBase.getRules().printGraph(knowledgeBase.getRules());
-
-        /*LinkedList<Facts> facts = knowledgeBase.getFacts();
-        ListIterator<Facts> factsListIterator = facts.listIterator();
-        while (factsListIterator.hasNext())
-        {
-            Facts fact = factsListIterator.next();
-            System.out.println(fact.getOperand() + " "+ fact.getState());
-        }
-
-        LinkedList<Query> queries = knowledgeBase.getQuery();
-        ListIterator<Query> queryListIterator = queries.listIterator();
-        while (queryListIterator.hasNext())
-        {
-            Query query = queryListIterator.next();
-            System.out.println(query.getQuery());
-        }*/
-        ///////////////////////////////////////////////////////////////////////////////////
-//        System.out.println("\n\n");
-    /*    LinkedList<Facts> crlist = expert.confirmList(knowledgeBase);
-        ListIterator<Facts> listIterator = crlist.listIterator();
-        while (listIterator.hasNext())
-        {
-            Facts fact = listIterator.next();
-            System.out.println(fact.getOperand() +" "+ fact.getState());
-        }
-
-   /*     KnowledgeBase knowledgeBase1 =  expert.confirmFacts(knowledgeBase);
-        knowledgeBase1.getRules().printGraph(knowledgeBase1.getRules());
-
-        LinkedList<Facts> facts1 = knowledgeBase1.getFacts();
-        ListIterator<Facts> factsListIterator1 = facts1.listIterator();
-        while (factsListIterator1.hasNext())
-        {
-            Facts fact = factsListIterator1.next();
-            System.out.println(fact.getOperand() + " "+ fact.getState());
-        }
-
-        LinkedList<Query> queries1 = knowledgeBase1.getQuery();
-        ListIterator<Query> queryListIterator1 = queries1.listIterator();
-        System.out.println("\n");
-        while (queryListIterator1.hasNext())
-        {
-            Query query = queryListIterator1.next();
-            System.out.println(query.getQuery());
-        }
-*/
-
-    //}
 }

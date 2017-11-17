@@ -16,17 +16,17 @@ public class ErrorChecking
 
         if ((lineState = emptyRules()) == true) //goes in when there are no rules
         {
-            System.out.println("There are no rules in this file");
+            System.err.println("There are no rules in this file");
             return (lineState);
         }
         if ((lineState = emptyIniFacts()) == true) //goes in when there are no initial facts
         {
-            System.out.println("There are no initial facts in this file");
+            System.err.println("There are no initial facts in this file");
             return (lineState);
         }
         if ((lineState = emptyQuery()) == true) //goes in when there are no queries
         {
-            System.out.println("There are no query in this file");
+            System.err.println("There are no query in this file");
             return (lineState);
         }
         return (lineState);
@@ -36,11 +36,11 @@ public class ErrorChecking
     {
         Object element;
         String line;
-        boolean lineState;
+        //boolean lineState;
 
-        if ((lineState = isEmpty()) == true)//this checks whether there is an empty aspect in the file
+        if (isEmpty() == true)//this checks whether there is an empty aspect in the file
         {
-            return (lineState);
+            return (false);
         }
         else
         {
@@ -51,36 +51,36 @@ public class ErrorChecking
                 line = (String) (element);
                 if (line.contains("=>"))
                 {
-                    if ((lineState = this.isUpper(line)) == false)
+                    if (this.isUpper(line) == false)
                     {
-                        System.out.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
-                        return (lineState);
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        return (false);
                     }
-                    if ((lineState = this.validExpression(line)) == false)
+                    if (this.validExpression(line) == false)
                     {
-                        System.out.println(line + "\t\t <- This expression is invalid.");
-                        return (lineState);
-                    }
-                }
-                else if (line.contains("="))
-                {
-                    if ((lineState = this.isUpper(line)) == false)
-                    {
-                        System.out.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
-                        return (lineState);
+                        System.err.println(line + "\t\t <- This expression is invalid.");
+                        return (false);
                     }
                 }
-                else if (line.contains("?"))
+                if (line.contains("="))
                 {
-                    if ((lineState = this.isUpper(line)) == false)
+                    if (this.isUpper(line) == false)
                     {
-                        System.out.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
-                        return (lineState);
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        return (false);
+                    }
+                }
+                if (line.contains("?"))
+                {
+                    if (this.isUpper(line) == false)
+                    {
+                        System.err.println(line + "\t\t <- This line conatins lowercase letters"); //format the print out later
+                        return (false);
                     }
                 }
             }
         }
-        return (lineState);
+        return (true);
     }
 
     private boolean isUpper (String line)

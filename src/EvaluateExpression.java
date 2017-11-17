@@ -92,8 +92,6 @@ public class EvaluateExpression
                 }
 
             }
-            // Entire expression has been parsed at this point, apply remaining
-            // ops to remaining values
             while (!this.ops.empty())
                 this.values.push(applyOp(this.ops.pop(), this.values.pop(), this.values.pop()));
             // Top of 'values' contains result, return it
@@ -112,14 +110,12 @@ public class EvaluateExpression
                 return true;
         }
 
-        // A utility method to apply an operator 'op' on operands 'a'
-        // and 'b'. Return the result.
-
         private Facts applyOp(Facts a)
         {
             a.setState(this.not(a));
             return (a);
         }
+
         private Facts applyOp(char op, Facts a, Facts b)
         {
             Facts result = new Facts('x', false);
@@ -174,29 +170,4 @@ public class EvaluateExpression
             else
                 return false;
         }
-
-
-   /* public static void main(String[] args)
-    {
-        EvaluateExpression solver = new EvaluateExpression("(A | B) + C");
-        Facts a = new Facts('A', true);
-        Facts b = new Facts('B', false);
-        Facts c = new Facts('C', true);
-  //      Facts d = new Facts('D', false);
-       // Facts e = new Facts('E', true);
-       // Facts f = new Facts('F', false);
-       // Facts g = new Facts('G', true);
-        LinkedList<Facts> facts = new LinkedList<>();
-        facts.add(a);
-        facts.add(b);
-        facts.add(c);
-        //facts.add(d);
-   //     facts.add(e);
-     //   facts.add(f);
-     //   facts.add(g);
-        System.out.println(solver.evaluate(facts));
-   //     EvaluateExpression solver = new EvaluateExpression("10 + 2 * 6");
-   //     System.out.println(solver.evaluate());
-
-    }*/
 }
