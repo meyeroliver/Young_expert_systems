@@ -25,7 +25,7 @@ public class main
                     if (fileChecker.checker() == true)
                     {
                         Expert expert = new Expert();
-                        KnowledgeBase knowledgeBase = expert.separator(fileList);
+                        KnowledgeBase knowledgeBase = expert.separator(fileList);//in here i need to strip comments from file
                         knowledgeBase.setFacts(expert.confirmList(knowledgeBase));
                         InferenceEngine inferenceEngine = new InferenceEngine(knowledgeBase);
                         inferenceEngine.initialQuery(knowledgeBase.getQuery());

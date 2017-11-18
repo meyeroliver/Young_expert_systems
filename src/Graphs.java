@@ -32,18 +32,17 @@ public class Graphs
 
      // A utility function to print the adjacency list
      // representation of graph
-     public void printGraph(Graphs graph)
+     public int numberOfNodes(Graphs graph)
      {
+        int numberOfNodes = 0;
         for(int v = 0; v < graph.V; v++)
         {
-            System.out.println("Adjacency list of vertex "+ v);
-            System.out.print("head");
             for(Rule pCrawl: graph.adjListArray[v])
             {
-                System.out.print(" -> "+pCrawl.getRule());
+                numberOfNodes++;
             }
-                System.out.println("\n");
         }
+        return numberOfNodes;
      }
 
     public LinkedList<Rule> getRulesList(int i)

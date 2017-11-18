@@ -75,7 +75,7 @@ public class InferenceEngine {
             else
             {
                 System.out.println("\t\t * -> " + currentQuery.getQuery() + " : unknown\n");
-                Facts newFact = engine(currentQuery);
+                Facts newFact = engine(currentQuery, 0);
                 System.out.println("\t\t -----------------");
                 System.out.println("\t\t * -> " + newFact.getOperand() + " : " + newFact.getState());
                 System.out.println("\t\t -----------------");
@@ -83,7 +83,7 @@ public class InferenceEngine {
         }
     }
 
-    private Facts engine(Query currentQuery)
+    private Facts engine(Query currentQuery, int recursiveCnt)
     {
         Facts newFact;
         String antecedent = "";
@@ -92,12 +92,17 @@ public class InferenceEngine {
         int satisfied = 0;
         LinkedList<Rule> rulesList = this.knowledgeBase.getRules().getRulesList(index);
         int ruleCnt = 1;
+
         for (Rule currentRule: rulesList)// make this more efficient once this version works properly
         {
             String[] s_rule = currentRule.getRule().split("=>");
             antecedent = s_rule[0];
             conclusion = s_rule[1];
             LinkedList<Character> operandList = this.getOperands(currentRule);
+            if (recursiveCnt > rulesList.size())
+            {
+                continue;
+            }
             for (char currentOperand: this.getOperands(currentRule))
             {
                 if (checkedFacts(currentOperand) == true)//need to format this more sexilly, need to make a checkfact and displaycheckedfacts
@@ -109,7 +114,7 @@ public class InferenceEngine {
                 {
                     System.out.println("\t\t * -> " + currentOperand + " : unknown\n");
                     Query newQuery = new Query(currentOperand);
-                    Facts subNewFact = engine(newQuery);
+                    Facts subNewFact = engine(newQuery, ++recursiveCnt);
                     System.out.println("\t\t -----------------");
                     System.out.println("\t\t * -> " + subNewFact.getOperand() + " : " + subNewFact.getState());
                     System.out.println("\t\t -----------------");
@@ -123,7 +128,8 @@ public class InferenceEngine {
 
                 //get rid of duplicate code
                 if (state == true)
-                {int work = 0;
+                {
+                    int work = 0;
                     for (char conclusionOperand :characterLinkedList)
                     {
                         newFact = new Facts(conclusionOperand, state);
@@ -136,7 +142,8 @@ public class InferenceEngine {
                     }
                 }
                 if (state == false && ruleCnt == rulesList.size())
-                {int work = 0;
+                {
+                    int work = 0;
                     for (char conclusionOperand :characterLinkedList)
                     {
                         newFact = new Facts(conclusionOperand, state);
@@ -197,7 +204,11 @@ public class InferenceEngine {
 
     private int displayRules(Query currentQuery)
     {
-        int index = this.getRulesIndex(currentQuery);// gets index of  rules to solve ?
+        int index = this.getRulesIndex(currentQuery);
+        if (index == -1)
+        {
+            System.exit(0);
+        }
         LinkedList<Rule> rules = this.knowledgeBase.getRules().getRulesList(index);
         for (Rule checkRule: rules)
         {
@@ -206,15 +217,4 @@ public class InferenceEngine {
         System.out.print("\n\n");
         return index;
     }
-
-   /* public static void main (String args[])
-    {
-        ReadFile file = new ReadFile("input.txt");
-        LinkedList fileList = file.readFile();
-        Expert expert = new Expert();
-        KnowledgeBase knowledgeBase = expert.separator(fileList);
-        knowledgeBase.setFacts(expert.confirmList(knowledgeBase));
-        InferenceEngine inferenceEngine = new InferenceEngine(knowledgeBase);
-        inferenceEngine.initialQuery(knowledgeBase.getQuery());
-    }*/
 }
