@@ -42,19 +42,19 @@ public class InferenceEngine {
 
     private void displayInitialQueries(LinkedList<Query> queryLinkedList)
     {
-        System.out.println("______________________________________________________________________________________________");
-        System.out.print("\nThis is the list of initial queries to solve.\n\n\t* -> ");
+        System.out.println("\033[33m______________________________________________________________________________________________");
+        System.out.print("\n\033[0mThis is the list of initial queries to solve.\n\n\t* -> ");
         for (Query checkQuery: queryLinkedList)
         {
             System.out.print(checkQuery.getQuery() + " | ");
         }
-        System.out.print("\n______________________________________________________________________________________________\n\n");
+        System.out.print("\n\033[33m______________________________________________________________________________________________\n\n");
     }
 
     private void displayFacts()
     {
-        System.out.println("______________________________________________________________________________________________");
-        System.out.print("\nThis is the list of Confirmed facts.\n\n\t* -> ");
+        System.out.println("\033[33m______________________________________________________________________________________________");
+        System.out.print("\n\033[0mThis is the list of Confirmed facts.\n\n\t* -> ");
         for (Facts fact: this.knowledgeBase.getFacts())
         {
             System.out.print(fact.getOperand() + " : " + fact.getState() +" | ");
@@ -74,11 +74,11 @@ public class InferenceEngine {
             }
             else
             {
-                System.out.println("\t\t * -> " + currentQuery.getQuery() + " : unknown\n");
+                System.out.println("\033[35m\t\t * -> " + currentQuery.getQuery() + " : unknown\n");
                 Facts newFact = engine(currentQuery, 0);
-                System.out.println("\t\t -----------------");
-                System.out.println("\t\t * -> " + newFact.getOperand() + " : " + newFact.getState());
-                System.out.println("\t\t -----------------");
+                System.out.println("\033[33m \t\t -----------------");
+                System.out.println("\033[36m \t\t * -> " + newFact.getOperand() + " : " + newFact.getState());
+                System.out.println("\033[33m \t\t -----------------");
             }
         }
     }
@@ -112,12 +112,12 @@ public class InferenceEngine {
                 }
                 else
                 {
-                    System.out.println("\t\t * -> " + currentOperand + " : unknown\n");
+                    System.out.println("\033[35m\t\t * -> " + currentOperand + " : unknown\n");
                     Query newQuery = new Query(currentOperand);
                     Facts subNewFact = engine(newQuery, ++recursiveCnt);
-                    System.out.println("\t\t -----------------");
-                    System.out.println("\t\t * -> " + subNewFact.getOperand() + " : " + subNewFact.getState());
-                    System.out.println("\t\t -----------------");
+                    System.out.println("\033[33m \t\t -----------------");
+                    System.out.println("\033[36m \t\t * -> " + subNewFact.getOperand() + " : " + subNewFact.getState());
+                    System.out.println("\033[33m \t\t -----------------");
                 }
             }
             if (satisfied == operandList.size())
@@ -212,7 +212,7 @@ public class InferenceEngine {
         LinkedList<Rule> rules = this.knowledgeBase.getRules().getRulesList(index);
         for (Rule checkRule: rules)
         {
-            System.out.print("\t\t\t * -> " + checkRule.getRule()+ " | ");
+            System.out.print("\033[34m\t\t\t * -> " + checkRule.getRule()+ " | ");
         }
         System.out.print("\n\n");
         return index;

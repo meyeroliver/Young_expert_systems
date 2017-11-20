@@ -37,7 +37,14 @@ public class ReadFile
             BufferedReader br = new BufferedReader(freader);
             while ((line = br.readLine()) != null)
             {
-                fileList.add(line);
+               if (line.contains("#"))
+               {
+                   fileList.add(line.substring(0, line.indexOf('#')));
+               }
+               else
+               {
+                   fileList.add(line);
+               }
             }
         }
         catch (Exception e)
