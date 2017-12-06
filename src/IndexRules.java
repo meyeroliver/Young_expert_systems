@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class IndexRules
 {
     private  int numOfRules;

@@ -3,11 +3,9 @@ import java.util.*;
 public class EvaluateExpression
 {
     char[] tokens;
-    // Stack for numbers: 'values'
     Stack<Facts> values;
 
-    // Stack for Operators: 'ops'
-    Stack<Character> ops;
+   Stack<Character> ops;
 
     public EvaluateExpression(String expression)
     {
@@ -32,32 +30,22 @@ public class EvaluateExpression
 
     public boolean evaluate(LinkedList<Facts> facts)
         {
-            //char[] tokens = expression.toCharArray();
             for (int i = 0; i < this.tokens.length; i++)
             {
-                // Current token is a whitespace, skip it
                 if (this.tokens[i] == ' ')
                     continue;
-                // Current token is a operand, push it to stack for operands
-                if (this.tokens[i] >= 'A' && this.tokens[i] <= 'Z') // remember to add x as a condition for the result case
+                if (this.tokens[i] >= 'A' && this.tokens[i] <= 'Z')
                     this.values.push(this.getFact(facts, this.tokens[i]));
-                // Current token is an opening brace, push it to 'ops'
                 else if (this.tokens[i] == '(')
                     this.ops.push(this.tokens[i]);
-                // Closing brace encountered, solve entire brace
                 else if (this.tokens[i] == ')')
                 {
                     while (this.ops.peek() != '(')
                         this.values.push(applyOp(this.ops.pop(), this.values.pop(), this.values.pop()));
                     this.ops.pop();
                 }
-                // Current token is an operator.
-
                 else if (this.tokens[i] == '!' || this.tokens[i] == '+' || this.tokens[i] == '|' || this.tokens[i] == '^')
                 {
-                    // While top of 'ops' has same or greater precedence to current
-                    // token, which is an operator. Apply operator on top of 'ops'
-                    // to top two elements in values stack
                     if (this.tokens[i] == '!')
                     {
                         int stay = i;
@@ -68,7 +56,7 @@ public class EvaluateExpression
                             cnt_ex++;
                         }
                         this.values.push(this.getFact(facts, this.tokens[i]));
-                        //this.ops.push(this.tokens[i]);
+
                         int check_ex = 0;
                         while (!this.ops.empty() && hasPrecedence(this.tokens[stay], this.ops.peek()))
                         {
@@ -86,7 +74,6 @@ public class EvaluateExpression
                     {
                         while (!this.ops.empty() && hasPrecedence(this.tokens[i], this.ops.peek()))
                             this.values.push(applyOp(this.ops.pop(), this.values.pop(), this.values.pop()));
-                        // Push current token to 'ops'.
                         this.ops.push(this.tokens[i]);
                     }
                 }
@@ -94,12 +81,9 @@ public class EvaluateExpression
             }
             while (!this.ops.empty())
                 this.values.push(applyOp(this.ops.pop(), this.values.pop(), this.values.pop()));
-            // Top of 'values' contains result, return it
             return this.values.pop().getState();
         }
 
-        // Returns true if 'op2' has higher or same precedence as 'op1',
-        // otherwise returns false.
         private static boolean hasPrecedence(char op1, char op2)
         {
             if (op2 == '(' || op2 == ')')

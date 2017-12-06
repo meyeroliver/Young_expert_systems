@@ -11,14 +11,14 @@ public class InferenceEngine {
         int index = -1;
         for (int v = 0; v < rules.getV(); v++)
             for (Rule rule : rules.getRulesList(v)) {
-                if (query.getQuery() == rule.getConclusion().charAt(0)) // incase of AND in conculsion create different system
+                if (query.getQuery() == rule.getConclusion().charAt(0))
                     index = v;
                 break;
             }
         return index;
     }
 
-    private LinkedList<Character> getOperands(Rule rule)// wont account for not rule, need to look at other functions
+    private LinkedList<Character> getOperands(Rule rule)
     {
         LinkedList<Character> operands = new LinkedList<>();
         String antecedant;
@@ -93,7 +93,7 @@ public class InferenceEngine {
         LinkedList<Rule> rulesList = this.knowledgeBase.getRules().getRulesList(index);
         int ruleCnt = 1;
 
-        for (Rule currentRule: rulesList)// make this more efficient once this version works properly
+        for (Rule currentRule: rulesList)
         {
             String[] s_rule = currentRule.getRule().split("=>");
             antecedent = s_rule[0];
@@ -105,7 +105,7 @@ public class InferenceEngine {
             }
             for (char currentOperand: this.getOperands(currentRule))
             {
-                if (checkedFacts(currentOperand) == true)//need to format this more sexilly, need to make a checkfact and displaycheckedfacts
+                if (checkedFacts(currentOperand) == true)
                 {
                     satisfied++;
                     continue;
@@ -126,7 +126,6 @@ public class InferenceEngine {
                 boolean state = solver.evaluate(this.knowledgeBase.getFacts());
                 LinkedList<Character> characterLinkedList = getConclusionOperands(conclusion);
 
-                //get rid of duplicate code
                 if (state == true)
                 {
                     int work = 0;
@@ -152,7 +151,7 @@ public class InferenceEngine {
                         {
                             return newFact;
                         }
-                        work++;
+                        work = work + 1;
                     }
                 }
             }
@@ -166,10 +165,10 @@ public class InferenceEngine {
         boolean state = solver.evaluate(this.knowledgeBase.getFacts());
         newFact = new Facts(conclusion.charAt(0), state);
         this.knowledgeBase.getFacts().add(newFact);
-        return (newFact);//need to make this case
+        return (newFact);
     }
 
-    private LinkedList<Character> getConclusionOperands(String conclusion)// wont account for not rule, need to look at other functions
+    private LinkedList<Character> getConclusionOperands(String conclusion)
     {
         LinkedList<Character> operands = new LinkedList<>();
 

@@ -6,6 +6,7 @@ public class ReadFile
 {
     private Scanner scan;
     private String filename;
+    private String pathName;
 
     public ReadFile(String filename)
     {
@@ -16,7 +17,9 @@ public class ReadFile
     {
         try
         {
-            this.scan = new Scanner(new File("/goinfre/omeyer/Desktop/Expert_System/src/" + this.filename));
+            File currentDir = new File(this.filename);
+            this.pathName = currentDir.getAbsolutePath();
+            this.scan = new Scanner(this.pathName);
             return true;
         }
         catch (Exception e)
@@ -33,7 +36,16 @@ public class ReadFile
 
         try
         {
-            FileReader freader = new FileReader("/goinfre/omeyer/Desktop/Expert_System/src/" + this.filename);
+            String segments[] = this.pathName.split("/");
+            String fresh = "";
+            int i = 0;
+            while (i < segments.length - 1)
+            {
+                fresh = fresh + segments[i] + "/";
+                i++;
+            }
+            fresh = fresh + "src/" + this.filename;
+            FileReader freader = new FileReader(fresh);
             BufferedReader br = new BufferedReader(freader);
             while ((line = br.readLine()) != null)
             {

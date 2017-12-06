@@ -1,5 +1,5 @@
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 public class main
 {
     public static void main (String[] args)
@@ -17,15 +17,16 @@ public class main
             else
             {
                 ReadFile file = new ReadFile(arguments[0]);
+
                 if (file.openFile() == true)
                 {
-                    LinkedList<String> fileList = file.readFile();//in here i need to strip comments from file
+                    LinkedList<String> fileList = file.readFile();
                     file.closeFile();
                     ErrorChecking fileChecker = new ErrorChecking(fileList);
                     if (fileChecker.checker() == true)
                     {
                         Expert expert = new Expert();
-                        KnowledgeBase knowledgeBase = expert.separator(fileList);//in here i need to strip comments from file
+                        KnowledgeBase knowledgeBase = expert.separator(fileList);
                         knowledgeBase.setFacts(expert.confirmList(knowledgeBase));
                         InferenceEngine inferenceEngine = new InferenceEngine(knowledgeBase);
                         inferenceEngine.initialQuery(knowledgeBase.getQuery());

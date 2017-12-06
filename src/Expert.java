@@ -63,17 +63,16 @@ public class Expert
     {
         Graphs graph = knowledgeBase.getRules();
         LinkedList<String> crlsit = new LinkedList<>();
-        /*goes through the graph and adds all of the conclusion to the Solvable list*/
+
         for (int v = 0; v < graph.getV(); v++)
         {
-            for (Rule rule: graph.getRulesList(v))// this be made to iterate through the conclusion
+            for (Rule rule: graph.getRulesList(v))
             {
-                crlsit.add(rule.getConclusion());//over here i can make so that takes the conclusion and then takes its operands(will help a lot)
+                crlsit.add(rule.getConclusion());
                 break;
             }
-        }//if it doesnt get added in here that means there is no rule to prove
-        /**************************************************************************************************/
-        // adds all of the initial facts to the Solvable list
+        }
+
         LinkedList<Facts> facts = knowledgeBase.getFacts();
         ListIterator<Facts> factsListIterator = facts.listIterator();
         while(factsListIterator.hasNext())
@@ -81,17 +80,16 @@ public class Expert
             Facts fact = factsListIterator.next();
             crlsit.add(fact.getOperand()+"");
 
-        }// if it doesnt get added in crlist here then it is not in initial facts
-        /*************************************************************************************************/
-        //two loops below allow me traverse the graph sequentially
+        }
+
         for(int v = 0; v < graph.getV(); v++)
         {
             for (Rule rule : graph.getRulesList(v))
             {
-                //here I split the rule up into a string array with just the operands in the array
-                String[] operands = (rule.getRule()).split("=>|\\+|\\(|\\)|\\||\\^");//"=>|\\+|\\(|\\)|!|\\||\\^"
+
+                String[] operands = (rule.getRule()).split("=>|\\+|\\(|\\)|\\||\\^");
                 int i = 0;
-                //the loop allows me to iterate through all of the operands of the current rule
+
                 while (i < operands.length - 1)
                 {
 
@@ -99,8 +97,7 @@ public class Expert
                     {
                         operands[i] = operands[i].replaceAll("!", "");
                     }
-                    /***********************************************************************************/
-                    //this section allows me to determine whether or not the current operand is in the Solvable list
+
                     ListIterator<String> listIterator = crlsit.listIterator();
                     boolean inlist = false;
                     while (listIterator.hasNext())
@@ -110,14 +107,13 @@ public class Expert
                             inlist = true;
                         }
                     }
-                    /***********************************************************************************/
-                    // if the operand is not in the solvable lists
+
                     if (inlist == false)
                     {
                         LinkedList<Facts> facts1 = knowledgeBase.getFacts();
                         ListIterator<Facts> factsListIterator1 = facts1.listIterator();
                         boolean inFacts = false;
-                        //will iterate through the list of Facts and check if the current operand is in the list of Facts
+
                         while(factsListIterator1.hasNext())
                         {
                             Facts fact1 = factsListIterator1.next();
@@ -127,9 +123,7 @@ public class Expert
                                 break;
                             }
                         }
-                        //if current operand is not in the list of facts update lists of Facts with false fact
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        //this is exactly where the problem is.
+
                         if (inFacts == false)
                         {
                             Graphs checkGraph = knowledgeBase.getRules();
@@ -146,7 +140,7 @@ public class Expert
                                     break;
                                 }
                             }
-                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                             if (hasRule == false)
                             {
                                 Facts fact = new Facts(operands[i].charAt(0), false);
@@ -154,12 +148,11 @@ public class Expert
                             }
                         }
                     }
-                    /**********************************************************************************/
+
                     i++;
                 }
             }
         }
-        //create an if statement that check whether the fact is in crlist
         return facts;
     }
 
